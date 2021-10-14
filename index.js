@@ -19,7 +19,7 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 const db = process.env.DB_URL;
 
@@ -83,13 +83,13 @@ app.get('/todos/:id', async (req, res) => {
 
 //create a todo
 app.post('/todos', async (req, res) => {
-    const {title, description,date_time} = req.body;
+    const { title, description, date_time } = req.body;
 
     const todoModel = await TodoModel.create({
         title,
         description,
         date_time
-       // ...req.body
+        // ...req.body
     })
     if (todoModel) {
         return res.status(200).json({
@@ -106,11 +106,11 @@ app.post('/todos', async (req, res) => {
 })
 
 //update a todo
-app.patch('/todos/:id',async (req, res) => {
-    const {id} = req.params;
-    const {status} = req.body;
+app.patch('/todos/:id', async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
 
-    const todoModel = await TodoModel.updateOne({status:status}).where({_id:id});
+    const todoModel = await TodoModel.updateOne({ status: status }).where({ _id: id });
 
     if (todoModel) {
         return res.status(201).json({
@@ -141,7 +141,7 @@ app.delete('/todos/:id', async (req, res) => {
             message: 'Failed to delete todos'
         })
     }
-    
+
 })
 
 app.get('/', (request, response) => {
