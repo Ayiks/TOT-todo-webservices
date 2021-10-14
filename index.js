@@ -11,19 +11,31 @@
 //     console.log('listening on port 3000');
 //     console.log('Url: http://localhost:3000/');
 // });
-
+import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import TodoModel from './schemas/todo_schemas.js'
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 const port = 5000;
-mongoose.connect('mongodb://localhost/todo_db', {
 
+const db = process.env.DB_URL;
+
+// mongoose.connect('mongodb://localhost/todo_db', {
+
+//     useUnifiedTopology: true,
+// }).then(() => {
+//     console.log('Connected to mongoDB')
+// }).catch((err) => {
+//     console.log(err);
+// })
+
+mongoose.connect(db, {
     useUnifiedTopology: true,
 }).then(() => {
-    console.log('Connected to mongoDB')
+    console.log('Connected to mongoDB😎')
 }).catch((err) => {
     console.log(err);
 })
@@ -77,6 +89,7 @@ app.post('/todos', async (req, res) => {
         title,
         description,
         date_time
+       // ...req.body
     })
     if (todoModel) {
         return res.status(200).json({
