@@ -49,8 +49,8 @@ mongoose.connect(db, {
 //     })
 // })
 app.get('/todos/:status', async (req, res) => {
-    const {status} = req.params.status;
-    const todoModel = await TodoModel.find({}).where('status').equals(status);
+    const {status} = req.params;
+    const todoModel = await TodoModel.find({status: status});
     if (todoModel) {
         return res.status(200).json({
             status: true,
